@@ -22,8 +22,9 @@ or
 1. Supply your credentials through environment variables. Just copy **env.default.sh** into an **env.sh** file, fill out all the credentials there.
 
 2. Supply a custom function to fetch data based on a user email in `./bin/tender_discussiondetail`.
+See the example there.
 
-3. Adjust your config settings in lib/config.js. Set the placeholders for your data properly in
+3. Adjust your config settings in lib/config.js. SeeSet the placeholders for your data properly in
 config.formData.body.
 
 4. Run:
