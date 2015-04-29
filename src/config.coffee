@@ -13,7 +13,7 @@ config.staffEmails = [
 
 # number of hours in the past within a ticket must be created at
 # in order to be considered
-config.hoursAgo = 19
+config.hoursAgo = 1
 
 body = "User details:\n\n"
 body += "Plan: {plan_name}\n\n"
