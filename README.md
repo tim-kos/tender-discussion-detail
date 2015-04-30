@@ -21,10 +21,36 @@ or
 
 1. Supply your credentials through environment variables. Just copy **env.default.sh** into an **env.sh** file, fill out all the credentials there.
 
-2. Supply a custom function to fetch data based on a user email in `./bin/tender_discussiondetail`.
-See the example there.
+2. Write a small executable script where you use the provided discussion_analyzer module and supply your own function to fetch data based on a user email. An example would be:
 
-3. Adjust your config settings in lib/config.js. SeeSet the placeholders for your data properly in
+```
+#!/usr/bin/env node
+
+var coffee             = require('coffee-script/register');
+var DiscussionAnalyzer = require('path/to/node_module/lib/discussion_analyzer');
+
+var fn = function(email, cb) {
+  var result = null;
+
+
+  var result = {
+    plan_name: 'foo plan',
+    account_email: 'jim@transloadit.com'
+  };
+  cb(null, result);
+};
+
+var analyzer = new DiscussionAnalyzer();
+analyzer.start(fn, function(err) {
+  if (err) {
+    throw err;
+  }
+
+  console.log('All done!');
+});
+```
+
+3. Adjust your config settings in lib/config.js. Set the placeholders for your data properly in
 config.formData.body.
 
 4. Run:
