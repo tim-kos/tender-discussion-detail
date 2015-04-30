@@ -35,8 +35,10 @@ var DiscussionAnalyzer = require('path/to/node_module/lib/discussion_analyzer');
 var fn = function(email, cb) {
   var result = null;
 
+  // If result is null, no comment will be added
 
-  var result = {
+  // Some database fetching logic here
+  result = {
     plan_name: 'foo plan',
     account_email: 'jim@transloadit.com'
   };

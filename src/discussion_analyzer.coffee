@@ -72,6 +72,7 @@ class DiscussionAnalyzer
 
   _fetchStatsForDiscussions: (discussions, fn, cb) ->
     console.log "Need to update #{discussions.length} discussions"
+
     if discussions.length == 0
       return cb()
 
@@ -97,6 +98,12 @@ class DiscussionAnalyzer
       if err
         throw err
 
+      if data == null
+        msg = "#{index} / #{total}: Author of #{discussion.html_href}"
+        msg += " is not a user"
+        console.log msg
+        return cb()
+
       formData = JSON.parse JSON.stringify(config.formData)
       formData.body = @_fillPlaceholders formData.body, data
       formData.body = "#Script generated #{formData.body}"
@@ -113,7 +120,9 @@ class DiscussionAnalyzer
         if err
           throw err
 
-        console.log "#{index} / #{total}: Handled #{discussion.html_href}"
+        msg = "#{index} / #{total}: Added comment for"
+        msg += " #{discussion.html_href}"
+        console.log msg
         cb()
 
   _fetchComments: (href, cb) ->
@@ -125,7 +134,7 @@ class DiscussionAnalyzer
     cmd = cmd.join " "
     cmd += " #{href}"
 
-    childProcess.exec cmd, (err, stdout, stderr) =>
+    childProcess.exec cmd, (err, stdout, stderr) ->
       parsed = null
 
       try
