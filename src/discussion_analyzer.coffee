@@ -71,6 +71,7 @@ class DiscussionAnalyzer
       cb()
 
   _fetchStatsForDiscussions: (discussions, fn, cb) ->
+    console.log "Need to update #{discussions.length} discussions"
     if discussions.length == 0
       return cb()
 

@@ -27,6 +27,8 @@ class DiscussionFetcher
       return new Error "You need to set a Tender site name."
 
   fetch: (cb) ->
+    console.log "Fetching discussions to consider"
+
     err = @_validates()
     if err
       return cb err
@@ -44,13 +46,12 @@ class DiscussionFetcher
 
   _end: (cb) ->
     @discussions = _.unique @discussions
+    console.log "Found #{@discussions.length} discussions to consider"
     cb @err, @discussions
 
   _fetchPage: (page, cb) ->
     if @err
       return cb()
-
-    console.log "Handling page #{page}"
 
     cmd = ["curl"]
     cmd.push "-H \"Accept: application/vnd.tender-v1+json\""
@@ -88,8 +89,6 @@ class DiscussionFetcher
 
       if page == 1
         @pageCount = Math.ceil parsed.total / parsed.per_page
-
-      console.log "Found #{@discussions.length} discussions"
 
       cb()
 
