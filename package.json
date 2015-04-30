@@ -12,10 +12,7 @@
     "url": "https://github.com/tim-kos/tender-discussion-detail"
   },
   "version": "0.2.0",
-  "main": "./bin/tender_discussiondetail",
-  "bin": {
-    "tender_discussiondetail": "./bin/tender_discussiondetail"
-  },
+  "main": "./bin_sample",
   "dependencies": {
     "async": "0.2.9",
     "commander": "2.2.0",

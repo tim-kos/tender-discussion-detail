@@ -5,7 +5,7 @@ MOCHA      = node_modules/.bin/mocha --compilers coffee:coffee-script --require 
 REPORTER   = nyan
 
 start: build
-	source env.sh && ./bin/tender_discussiondetail
+	source env.sh && ./bin_sample
 
 test: build
 	@make lint || true

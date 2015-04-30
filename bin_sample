@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 
 var coffee             = require('coffee-script/register');
-var DiscussionAnalyzer = require('../lib/discussion_analyzer');
+var DiscussionAnalyzer = require('./lib/discussion_analyzer');
 
 var fn = function(email, cb) {
-  var result = {
+  var result = null;
+
+  // some processing here
+  result = {
     plan_name: 'foo plan',
     account_email: 'jim@transloadit.com'
   };
   cb(null, result);
 };
+
 var analyzer = new DiscussionAnalyzer();
 analyzer.start(fn, function(err) {
   if (err) {

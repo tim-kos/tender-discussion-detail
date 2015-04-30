@@ -21,7 +21,10 @@ or
 
 1. Supply your credentials through environment variables. Just copy **env.default.sh** into an **env.sh** file, fill out all the credentials there.
 
-2. Write a small executable script where you use the provided discussion_analyzer module and supply your own function to fetch data based on a user email. An example would be:
+2. Copy lib/config.sample.js into lib/config.js and set the placeholders for your data properly in
+config.formData.body. Adjust other settings as you see fit.
+
+3. Write a small executable script where you use the provided discussion_analyzer module and supply your own function to fetch data based on a user email. An example would be:
 
 ```
 #!/usr/bin/env node
@@ -50,14 +53,7 @@ analyzer.start(fn, function(err) {
 });
 ```
 
-3. Adjust your config settings in lib/config.js. Set the placeholders for your data properly in
-config.formData.body.
-
-4. Run:
-
-```
-source env.sh && ./bin/tender_discussiondetail
-```
+4. Source the environment and run your custom binary script from step 3.
 
 
 # TODO
