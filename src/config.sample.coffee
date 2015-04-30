@@ -4,13 +4,6 @@ config = exports
 # replied, but not the customer
 config.state = "open"
 
-config.staffEmails = [
-  "tim.koschuetzki@transloadit.com"
-  "kevin@transloadit.com"
-  "marius@transloadit.com"
-  "joe@transloadit.com"
-]
-
 # number of hours in the past within a ticket must be created at
 # in order to be considered
 config.hoursAgo = 1
