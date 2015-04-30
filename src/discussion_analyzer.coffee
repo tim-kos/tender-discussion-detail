@@ -93,7 +93,7 @@ class DiscussionAnalyzer
     index      = obj.index
     total      = obj.total
 
-    @_config.fn discussion, (err, data) =>
+    @_config.fn discussion.author_email, (err, data) =>
       if err
         throw err
 
