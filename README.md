@@ -58,6 +58,11 @@ analyzer.start(fn, function(err) {
 4. Source the environment and run your custom binary script from step 3.
 
 
+# Upgrading
+
+If you upgrade to a new version of the plugin, make sure to back up your config.js first, as NPM will remove it.
+
+
 # TODO
 
 - [] Write some tests
