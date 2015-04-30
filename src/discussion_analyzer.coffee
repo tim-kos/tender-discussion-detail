@@ -62,7 +62,7 @@ class DiscussionAnalyzer
         match = match && comment.author_email == @_config.formData.authorEmail
         match = match && /^\#Script generated/.test(comment.body)
 
-        if matches
+        if match
           hasComment = true
           break
 
