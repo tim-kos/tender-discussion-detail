@@ -19,43 +19,9 @@ or
 
 # Execution
 
-1. Supply your credentials through environment variables. Just copy **env.default.sh** into an **env.sh** file, fill out all the credentials there.
+1. Write a small executable script where you use the provided discussion_analyzer module and supply your own function and config to fetch data based on a user email. An example can be found in ./bin_sample
 
-2. Copy lib/config.sample.js into lib/config.js and set the placeholders for your data properly in
-config.formData.body. Adjust other settings as you see fit.
-
-3. Write a small executable script where you use the provided discussion_analyzer module and supply your own function to fetch data based on a user email. An example would be:
-
-```
-#!/usr/bin/env node
-
-var coffee             = require('coffee-script/register');
-var DiscussionAnalyzer = require('path/to/node_module/lib/discussion_analyzer');
-
-var fn = function(email, cb) {
-  var result = null;
-
-  // If result is null, no comment will be added
-
-  // Some database fetching logic here
-  result = {
-    plan_name: 'foo plan',
-    account_email: 'jim@transloadit.com'
-  };
-  cb(null, result);
-};
-
-var analyzer = new DiscussionAnalyzer();
-analyzer.start(fn, function(err) {
-  if (err) {
-    throw err;
-  }
-
-  console.log('All done!');
-});
-```
-
-4. Source the environment and run your custom binary script from step 3.
+2. Run your own custom script.
 
 
 # Upgrading

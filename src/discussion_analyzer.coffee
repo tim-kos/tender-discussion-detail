@@ -1,5 +1,4 @@
 request           = require "request"
-config            = require "./config"
 async             = require "async"
 childProcess      = require "child_process"
 DiscussionFetcher = require "./discussion_fetcher"
@@ -7,15 +6,18 @@ DiscussionFetcher = require "./discussion_fetcher"
 class DiscussionAnalyzer
   constructor: ->
     @_filtered = []
+    @_config = {}
 
-  start: (fn, cb) ->
-    if !config.tender.siteName || !config.tender.apiKey
+  start: (config, cb) ->
+    @_config = config
+
+    if !@_config.tender.siteName || !@_config.tender.apiKey
       throw new Error "You need to supply Tender credentials!"
 
     opts =
-      site   : config.tender.siteName
-      apiKey : config.tender.apiKey
-      state  : config.state
+      site   : @_config.tender.siteName
+      apiKey : @_config.tender.apiKey
+      state  : @_config.state
 
     fetcher = new DiscussionFetcher opts
     fetcher.fetch (err, discussions) =>
@@ -26,7 +28,7 @@ class DiscussionAnalyzer
         if err
           throw err
 
-        @_fetchStatsForDiscussions @_filtered, fn, cb
+        @_fetchStatsForDiscussions @_filtered, cb
 
   _filterDiscussions: (discussions, cb) ->
     if discussions.length == 0
@@ -39,9 +41,9 @@ class DiscussionAnalyzer
   _filter: (discussion, cb) ->
     result = []
 
-    if config.hoursAgo
+    if @_config.hoursAgo
       now      = +new Date
-      hoursAgo = +new Date(now - (config.hoursAgo * 60 * 60 * 1000))
+      hoursAgo = +new Date(now - (@_config.hoursAgo * 60 * 60 * 1000))
 
       thenTime = +new Date(discussion.created_at)
       if thenTime < hoursAgo
@@ -56,10 +58,9 @@ class DiscussionAnalyzer
       hasComment = false
 
       for comment in result.comments
-        matches = comment.internal == config.formData.internal
-
-        matches = matches && comment.author_email == config.formData.authorEmail
-        matches = matches && /^\#Script generated/.test(comment.body)
+        match = comment.internal == @_config.formData.internal
+        match = match && comment.author_email == @_config.formData.authorEmail
+        match = match && /^\#Script generated/.test(comment.body)
 
         if matches
           hasComment = true
@@ -70,7 +71,7 @@ class DiscussionAnalyzer
 
       cb()
 
-  _fetchStatsForDiscussions: (discussions, fn, cb) ->
+  _fetchStatsForDiscussions: (discussions, cb) ->
     console.log "Need to update #{discussions.length} discussions"
 
     if discussions.length == 0
@@ -84,7 +85,6 @@ class DiscussionAnalyzer
       obj =
         index      : index++
         total      : discussions.length
-        fn         : fn
         discussion : d
       q.push obj
 
@@ -92,9 +92,8 @@ class DiscussionAnalyzer
     discussion = obj.discussion
     index      = obj.index
     total      = obj.total
-    fn         = obj.fn
 
-    fn discussion, (err, data) =>
+    @_config.fn discussion, (err, data) =>
       if err
         throw err
 
@@ -104,7 +103,7 @@ class DiscussionAnalyzer
         console.log msg
         return cb()
 
-      formData = JSON.parse JSON.stringify(config.formData)
+      formData = JSON.parse JSON.stringify(@_config.formData)
       formData.body = @_fillPlaceholders formData.body, data
       formData.body = "#Script generated #{formData.body}"
 
@@ -112,7 +111,7 @@ class DiscussionAnalyzer
         url     : discussion.comments_href
         form    : formData
         headers :
-          "X-Tender-Auth" : config.tender.apiKey
+          "X-Tender-Auth" : @_config.tender.apiKey
           "Accept"        : "application/vnd.tender-v1+json"
           "Content-Type"  : "application/json"
 
@@ -128,7 +127,7 @@ class DiscussionAnalyzer
   _fetchComments: (href, cb) ->
     cmd = ["curl"]
     cmd.push "-H \"Accept: application/vnd.tender-v1+json\""
-    cmd.push "-H \"X-Tender-Auth: #{config.tender.apiKey}\""
+    cmd.push "-H \"X-Tender-Auth: #{@_config.tender.apiKey}\""
     cmd.push "-H \"Content-Type: application/json\""
 
     cmd = cmd.join " "

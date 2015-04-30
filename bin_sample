@@ -3,19 +3,38 @@
 var coffee             = require('coffee-script/register');
 var DiscussionAnalyzer = require('./lib/discussion_analyzer');
 
-var fn = function(email, cb) {
-  var result = null;
+var body = "User details:\n\n";
+body += "Plan: {plan_name}\n\n";
+body += "Account: https://transloadit.com/admin/accounts/{account_email}";
 
-  // some processing here
-  result = {
-    plan_name: 'foo plan',
-    account_email: 'jim@transloadit.com'
-  };
-  cb(null, result);
+var config = {
+  tender: {
+    siteName : process.env.TENDER_SITENAME,
+    apiKey   : process.env.TENDER_APIKEY
+  },
+  state: 'open',
+  hoursAgo: 1,
+  formData: {
+    authorName  : "Tim Koschützki",
+    authorEmail : "tim.koschuetzki@transloadit.com",
+    body        : body,
+    internal    : true,
+    skip_spam   : true
+  },
+  fn: function(email, cb) {
+    var result = null;
+
+    // some processing here
+    result = {
+      plan_name: 'foo plan',
+      account_email: 'jim@transloadit.com'
+    };
+    cb(null, result);
+  }
 };
 
 var analyzer = new DiscussionAnalyzer();
-analyzer.start(fn, function(err) {
+analyzer.start(config, function(err) {
   if (err) {
     throw err;
   }

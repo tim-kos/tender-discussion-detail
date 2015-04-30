@@ -4,10 +4,9 @@ _            = require "underscore"
 
 class DiscussionFetcher
   constructor: (opts) ->
-    @apiKey = opts.apiKey || process.env.TENDER_SITENAME || null
-    @site   = opts.site   || process.env.TENDER_APIKEY || null
+    @apiKey = opts.apiKey
+    @site   = opts.site
     @state  = opts.state  || "pending"
-    @since  = opts.since  || null
 
     @url = @_buildUrl()
 
