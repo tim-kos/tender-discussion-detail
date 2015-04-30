@@ -10,7 +10,7 @@ More predefined data placeholders will come soon, such as recent other tickets b
 
 # Installation
 
-`npm install --save tender-discussiondetail`
+`npm install --save tender-discussion-detail`
 
 or
 
