@@ -5,5 +5,8 @@
 
 /env.sh
 
+/lib/config.js
+/src/config.coffee
+
 npm-debug.log
 .DS_Store
