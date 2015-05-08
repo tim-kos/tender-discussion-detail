@@ -97,7 +97,7 @@ class DiscussionAnalyzer
       if err
         throw err
 
-      if data == null
+      if !data?
         msg = "#{index} / #{total}: Author of #{discussion.html_href}"
         msg += " is not a user"
         console.log msg
