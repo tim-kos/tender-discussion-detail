@@ -19,7 +19,7 @@ or
 
 # Execution
 
-1. Write a small executable script where you use the provided discussion_analyzer module and supply your own function and config to fetch data based on a user email. An example can be found in ./bin_sample
+1. Write a small executable script where you use the provided discussion_analyzer module and supply your own function and config to fetch data based on a user email. An example can be found in `./bin_sample`
 
 2. Run your own custom script.
 
@@ -32,3 +32,4 @@ If you upgrade to a new version of the plugin, make sure to back up your config.
 # TODO
 
 - [] Write some tests
+- [] Switch from passing JSON to allowing `fn` to return a text. This allows markdown formatting and attaching any kind of format, rather than a list of key values. First win I'm thinking of is having `fn` add links `[]()`, bullet points, be able to `>` quote, etc.
