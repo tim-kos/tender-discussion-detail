@@ -67,6 +67,7 @@ class DiscussionAnalyzer
           break
 
       if !hasComment
+        discussion.comments = result.comments
         @_filtered.push discussion
 
       cb()
@@ -93,19 +94,18 @@ class DiscussionAnalyzer
     index      = obj.index
     total      = obj.total
 
-    @_config.fn discussion.author_email, (err, data) =>
+    @_config.fn discussion, (err, reponseText) =>
       if err
         throw err
 
-      if !data?
+      if !reponseText?
         msg = "#{index} / #{total}: Author of #{discussion.html_href}"
         msg += " is not a user"
         console.log msg
         return cb()
 
       formData = JSON.parse JSON.stringify(@_config.formData)
-      formData.body = @_fillPlaceholders formData.body, data
-      formData.body = "#Script generated #{formData.body}"
+      formData.body = "#Script generated\n#{reponseText}"
 
       opts =
         url     : discussion.comments_href
@@ -142,13 +142,5 @@ class DiscussionAnalyzer
         return cb e
 
       cb err, parsed
-
-  _fillPlaceholders: (body, dataToReplace) ->
-    for key, val of dataToReplace
-      regex = new RegExp "\{#{key}\}"
-      body = body.replace regex, val
-
-    return body
-
 
 module.exports = DiscussionAnalyzer
